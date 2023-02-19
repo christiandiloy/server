@@ -37,13 +37,19 @@ app.use(cors({
     credentials: true,
     methods: 'GET,POST,PUT,DELETE',
     optionsSuccessStatus: 200
-  }));
+}));
 app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
     extended: true
 }));
 app.use(bodyParser.json());// initialize body parser plugin on express
 
 let defaultData = [];
+
+app.options('/api/v2/register', cors(), function(req, res) {
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.sendStatus(200);
+});
 
 app.post('/api/v2/register', function (
     request,
