@@ -2,7 +2,7 @@
 const express = require('express') // server code or to run our own server on localhost specified by port
 const cors = require('cors') // this allows us to access our server on a different domain
 const bodyParser = require("body-parser"); // this allows us to ready request data JSON object
-// const app = express() // initialize express server into a variable
+const app = express() // initialize express server into a variable
 const fs = require('fs') // use file system of windows or other OS to access local files
 const request = require('request');
 const requestAPI = request;
@@ -32,19 +32,18 @@ const User = sequelize.define('user', {
 
 
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(cors()) // initialize cors plugin on express
+app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
+    extended: true
+}));
+app.use(bodyParser.json());// initialize body parser plugin on express
 
-app.options('/api/v2/register', cors()); // enable CORS preflight for this route
-
+let defaultData = [];
 
 app.post('/api/v2/register', function (
     request,
     response
 ) {
-    console.log('Received registration request');
     let retVal = {success: false};
     console.log('req: ', request.body)
     User.findOne({
@@ -65,7 +64,6 @@ app.post('/api/v2/register', function (
                 email: request.body.email
             })
                 .then((result)=>{
-                    console.log('New user created in database: ', result)
                     return result.dataValues;
                 })
                 .then((result)=>{
@@ -82,8 +80,7 @@ app.post('/api/v2/register', function (
                 })
         }
     })
-});
-
+})
 
 
 const runApp = async ()=>{
