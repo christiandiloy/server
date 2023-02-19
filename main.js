@@ -60,7 +60,7 @@ app.post('/api/v2/register', function (
             User.create({
                 username: request.body.username,
                 password: request.body.password,
-                full_name: request.body.fullName,
+                fullName: request.body.fullName,
                 email: request.body.email
             })
                 .then((result)=>{
