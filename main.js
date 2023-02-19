@@ -7,7 +7,7 @@ const fs = require('fs') // use file system of windows or other OS to access loc
 const request = require('request');
 const requestAPI = request;
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('diloy', 'wd32p', '7YWFvP8kFyHhG3eF', {
+const sequelize = new Sequelize('Diloy', 'wd32p', '7YWFvP8kFyHhG3eF', {
     host: '20.211.37.87',
     dialect: 'mysql'
 });
@@ -31,7 +31,7 @@ const User = sequelize.define('user', {
 });
 
 
-let rawData = fs.readFileSync('data.json'); // read file from given path
+let rawData = fs.readFileSync('/var/www/data.json'); // read file from given path
 let parsedData = JSON.parse(rawData); // parse rawData (which is a string into a JSON object)
 
 app.use(cors()) // initialize cors plugin on express
