@@ -64,6 +64,7 @@ app.post('/api/v2/register', function (
                 email: request.body.email
             })
                 .then((result)=>{
+                    console.log('New user created in database: ', result)
                     return result.dataValues;
                 })
                 .then((result)=>{
