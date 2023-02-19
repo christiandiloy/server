@@ -44,6 +44,7 @@ app.post('/api/v2/register', function (
     request,
     response
 ) {
+    console.log('Received registration request');
     let retVal = {success: false};
     console.log('req: ', request.body)
     User.findOne({
