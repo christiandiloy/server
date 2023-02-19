@@ -2,7 +2,7 @@
 const express = require('express') // server code or to run our own server on localhost specified by port
 const cors = require('cors') // this allows us to access our server on a different domain
 const bodyParser = require("body-parser"); // this allows us to ready request data JSON object
-const app = express() // initialize express server into a variable
+// const app = express() // initialize express server into a variable
 const fs = require('fs') // use file system of windows or other OS to access local files
 const request = require('request');
 const requestAPI = request;
@@ -32,13 +32,13 @@ const User = sequelize.define('user', {
 
 
 
-app.use(cors()) // initialize cors plugin on express
-app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
-    extended: true
-}));
-app.use(bodyParser.json());// initialize body parser plugin on express
+const app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-let defaultData = [];
+app.options('/api/v2/register', cors()); // enable CORS preflight for this route
+
 
 app.post('/api/v2/register', function (
     request,
@@ -84,13 +84,7 @@ app.post('/api/v2/register', function (
     })
 });
 
-app.options('/api/v2/register', function(req, res) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Max-Age', '86400');
-    res.sendStatus(200);
-});
+
 
 const runApp = async ()=>{
     try {
