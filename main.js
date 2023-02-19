@@ -31,8 +31,6 @@ const User = sequelize.define('user', {
 });
 
 
-let rawData = fs.readFileSync('/var/www/data.json'); // read file from given path
-let parsedData = JSON.parse(rawData); // parse rawData (which is a string into a JSON object)
 
 app.use(cors()) // initialize cors plugin on express
 app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
