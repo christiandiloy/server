@@ -32,7 +32,12 @@ const User = sequelize.define('user', {
 
 
 
-app.use(cors()) // initialize cors plugin on express
+app.use(cors({
+    exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+    credentials: true,
+    methods: 'GET,POST,PUT,DELETE',
+    optionsSuccessStatus: 200
+  }));
 app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
     extended: true
 }));
