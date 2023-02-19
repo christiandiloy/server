@@ -82,8 +82,15 @@ app.post('/api/v2/register', function (
                 })
         }
     })
-})
+});
 
+app.options('/api/v2/register', function(req, res) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Max-Age', '86400');
+    res.sendStatus(200);
+});
 
 const runApp = async ()=>{
     try {
