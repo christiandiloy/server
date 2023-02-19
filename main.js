@@ -1,8 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const fs = require("fs");
-const request = require("request");
 const { Sequelize } = require("sequelize");
 
 const app = express();
@@ -37,7 +35,7 @@ app.use(
   cors({
     exposedHeaders: ["Content-Length", "X-Foo", "X-Bar"],
     credentials: true,
-    methods: "GET,POST,PUT,DELETE",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     optionsSuccessStatus: 200,
   })
 );
@@ -72,7 +70,7 @@ app.post("/api/v2/register", function (request, response) {
       User.create({
         username: request.body.username,
         password: request.body.password,
-        full_name: request.body.fullName,
+        full_name: request.body.full_name,
         email: request.body.email,
       })
         .then((result) => {
