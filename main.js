@@ -38,6 +38,12 @@ app.use(bodyParser.urlencoded({ // initialize body parser plugin on express
 }));
 app.use(bodyParser.json());// initialize body parser plugin on express
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Request-Headers');
+    next();
+  });
+
+  
 let defaultData = [];
 
 app.post('/api/v2/register', function (
