@@ -48,7 +48,7 @@ let defaultData = [];
 
 app.post('/api/v2/register', function (
     request,
-    response
+    response, next
 ) {
     let retVal = {success: false};
     console.log('req: ', request.body)
