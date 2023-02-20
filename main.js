@@ -43,11 +43,12 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers');
     res.header('Access-Control-Expose-Headers', 'Access-Control-Allow-Headers'); // This line is optional and may not be necessary.
     if (req.method === 'OPTIONS') {
-      res.header('Access-Control-Allow-Methods', 'POST');
-      return res.status(200).json({});
+      res.header('Access-Control-Allow-Methods', 'POST, GET');
+      next();
+    } else {
+      next();
     }
-    next();
-  });
+});
 
 let defaultData = [];
 
