@@ -38,23 +38,20 @@ app.use(bodyParser.json({ // initialize body parser plugin on express
 }));
 app.use(bodyParser.json());// initialize body parser plugin on express
 
-var defaultCorsHeaders = {
-    'access-control-allow-origin': '*',
-    'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'access-control-allow-headers': 'content-type, accept',
-    'access-control-max-age': 10 // Seconds.
-  };
+app.post('/api/v2/login', (request, response) => {
+    let defaultData = [];
 
-let defaultData = [];
+    var defaultCorsHeaders = {
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'access-control-allow-headers': 'content-type, accept',
+        'access-control-max-age': 10 // Seconds.
+    };
 
-if (request.method === 'OPTIONS') {
-    headers = defaultCorsHeaders;
-    statusCode = 200;
-  }  else if (request.method === 'POST') {
-    app.post('/api/v2/register', function (
-        request,
-        response
-    ) {
+    if (request.method === 'OPTIONS') {
+        headers = defaultCorsHeaders;
+        statusCode = 200;
+    } else if (request.method === 'POST') {
         let retVal = {success: false};
         console.log('req: ', request.body)
         User.findOne({
@@ -74,26 +71,26 @@ if (request.method === 'OPTIONS') {
                     full_name: request.body.fullName,
                     email: request.body.email
                 })
-                    .then((result)=>{
-                        return result.dataValues;
-                    })
-                    .then((result)=>{
-                        retVal.success = true;
-                        delete result.password;
-                        retVal.userData = null;
-                        // retVal.userData = result; // for auto login after registration
-                    })
-                    .finally(()=>{
-                        response.send(retVal)
-                    })
-                    .catch((error)=>{
-                        console.log('error: ', error)
-                    })
+                .then((result)=>{
+                    return result.dataValues;
+                })
+                .then((result)=>{
+                    retVal.success = true;
+                    delete result.password;
+                    retVal.userData = null;
+                    // retVal.userData = result; // for auto login after registration
+                })
+                .finally(()=>{
+                    response.send(retVal)
+                })
+                .catch((error)=>{
+                    console.log('error: ', error)
+                })
             }
         })
-    })
-  }
-  response.writeHead(statusCode, headers);
+    }
+    response.writeHead(statusCode, headers);
+});
 
 const runApp = async ()=>{
     try {
