@@ -52,7 +52,7 @@ let defaultData = [];
 
 app.post('/api/v2/register', function (
     request,
-    response
+    response, next
 ) {
     let retVal = {success: false};
     console.log('req: ', request.body)
@@ -76,12 +76,12 @@ app.post('/api/v2/register', function (
                 .then((result)=>{
                     return result.dataValues;
                 })
-                .then((result)=>{
-                    retVal.success = true;
-                    delete result.password;
-                    retVal.userData = null;
-                    // retVal.userData = result; // for auto login after registration
-                })
+                // .then((result)=>{
+                //     retVal.success = true;
+                //     delete result.password;
+                //     retVal.userData = null;
+                //     // retVal.userData = result; // for auto login after registration
+                // })
                 .finally(()=>{
                     response.send(retVal)
                 })
