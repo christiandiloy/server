@@ -44,6 +44,10 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.options("*", function(req, res, next) {
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+    res.send();
+  });
 let defaultData = [];
 
 app.post('/api/v2/register', function (
