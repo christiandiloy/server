@@ -51,41 +51,46 @@ if (request.method === 'OPTIONS') {
     headers = defaultCorsHeaders;
     statusCode = 200;
   }  else if (request.method === 'POST') {
-    let retVal = {success: false};
-    console.log('req: ', request.body)
-    User.findOne({
-        where: {
-            username: request.body.username
-        }
-    })
-    .then((result)=>{
-        if(result){
-            retVal.success = false;
-            retVal.message = 'username is already taken'
-            response.send(retVal);
-        }else{
-            User.create({
-                username: request.body.username,
-                password: request.body.password,
-                full_name: request.body.fullName,
-                email: request.body.email
-            })
-                .then((result)=>{
-                    return result.dataValues;
+    app.post('/api/v2/register', function (
+        request,
+        response
+    ) {
+        let retVal = {success: false};
+        console.log('req: ', request.body)
+        User.findOne({
+            where: {
+                username: request.body.username
+            }
+        })
+        .then((result)=>{
+            if(result){
+                retVal.success = false;
+                retVal.message = 'username is already taken'
+                response.send(retVal);
+            }else{
+                User.create({
+                    username: request.body.username,
+                    password: request.body.password,
+                    full_name: request.body.fullName,
+                    email: request.body.email
                 })
-                .then((result)=>{
-                    retVal.success = true;
-                    delete result.password;
-                    retVal.userData = null;
-                    // retVal.userData = result; // for auto login after registration
-                })
-                .finally(()=>{
-                    response.send(retVal)
-                })
-                .catch((error)=>{
-                    console.log('error: ', error)
-                })
-        }
+                    .then((result)=>{
+                        return result.dataValues;
+                    })
+                    .then((result)=>{
+                        retVal.success = true;
+                        delete result.password;
+                        retVal.userData = null;
+                        // retVal.userData = result; // for auto login after registration
+                    })
+                    .finally(()=>{
+                        response.send(retVal)
+                    })
+                    .catch((error)=>{
+                        console.log('error: ', error)
+                    })
+            }
+        })
     })
   }
   response.writeHead(statusCode, headers);
