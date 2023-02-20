@@ -33,7 +33,7 @@ const User = sequelize.define('user', {
 
 
 app.use(cors({
-    origin: 'https://dota2gcashstore.netlify.app'
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 })); // initialize cors plugin on express
 app.use(bodyParser.json({ // initialize body parser plugin on express
     extended: true
