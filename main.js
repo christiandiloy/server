@@ -50,47 +50,49 @@ app.options("*", function(req, res, next) {
   });
 let defaultData = [];
 
-app.post('/api/v2/register', function (
-    request,
-    response, next
-) {
-    let retVal = {success: false};
-    console.log('req: ', request.body)
-    User.findOne({
-        where: {
-            username: request.body.username
-        }
-    })
-    .then((result)=>{
-        if(result){
-            retVal.success = false;
-            retVal.message = 'username is already taken'
-            response.send(retVal);
-        }else{
-            User.create({
-                username: request.body.username,
-                password: request.body.password,
-                full_name: request.body.fullName,
-                email: request.body.email
-            })
-                .then((result)=>{
-                    return result.dataValues;
+app.post('/api/v2/register', async (req, res) => {
+    try {
+        let retVal = {success: false};
+        console.log('req: ', request.body)
+        User.findOne({
+            where: {
+                username: request.body.username
+            }
+        })
+        .then((result)=>{
+            if(result){
+                retVal.success = false;
+                retVal.message = 'username is already taken'
+                response.send(retVal);
+            }else{
+                User.create({
+                    username: request.body.username,
+                    password: request.body.password,
+                    full_name: request.body.fullName,
+                    email: request.body.email
                 })
-                .then((result)=>{
-                    retVal.success = true;
-                    delete result.password;
-                    retVal.userData = null;
-                    // retVal.userData = result; // for auto login after registration
-                })
-                .finally(()=>{
-                    response.send(retVal)
-                })
-                .catch((error)=>{
-                    console.log('error: ', error)
-                })
-        }
-    })
-})
+                    .then((result)=>{
+                        return result.dataValues;
+                    })
+                    .then((result)=>{
+                        retVal.success = true;
+                        delete result.password;
+                        retVal.userData = null;
+                        // retVal.userData = result; // for auto login after registration
+                    })
+                    .finally(()=>{
+                        response.send(retVal)
+                    })
+                    .catch((error)=>{
+                        console.log('error: ', error)
+                    })
+            }
+        })
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Something went wrong' });
+    }
+  });
 
 
 const runApp = async ()=>{
